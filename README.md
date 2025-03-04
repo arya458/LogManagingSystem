@@ -12,6 +12,7 @@ LogManagingSystem/
 │   ├── logmanagingapi.go
 │   ├── go.mod
 │   ├── go.sum
+│   ├── build.bat 
 │   └── ...
 ├── LogManagingKotlinLib/ (Kotlin/Gradle library project)
 │   ├── src/
@@ -22,7 +23,7 @@ LogManagingSystem/
 ├── build/                 (Output directory for build artifacts)
 │   ├── go_executables/    (Go executables)
 │   └── libs/             (Gradle JAR library)
-└── build_all.bat         (Batch script to build the entire project)
+└── build_all.bat         (Batch script to build the entire project) NOT YET
 └── lib/                  (Directory to hold the LogManagingKotlinLib.jar)
 ```
 

@@ -112,4 +112,4 @@ Transmission: The encrypted data is sent to the LogManagingApi via an HTTP POST 
 Decryption and Storage: The API decrypts the data, parses it, and stores the log information.
 Response: The library returns a Result type, indicating success or failure.
 
-Developed by: Developed by: <img src="https://avatars.githubusercontent.com/u/arya458?v=4" width="20" height="20"> [Arya](https://github.com/arya458) [Aria](https://github.com/arya458)
+Developed by: <img src="https://avatars.githubusercontent.com/u/23719966?v=4" width="20" height="20"> [Arya](https://github.com/arya458) [Aria](https://github.com/arya458)

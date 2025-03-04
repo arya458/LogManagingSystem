@@ -6,7 +6,7 @@ LogManagingApi (Go): A backend API that receives, decrypts, and stores log data.
 LogManagingKotlinLib (Kotlin/Gradle): A client library for encrypting and sending log data to the API.
 Project Structure
 
-````
+```kotlin
 LogManagingSystem/
 ├── LogManagingApi/       (Go API project)
 │   ├── logmanagingapi.go
@@ -28,7 +28,7 @@ LogManagingSystem/
 │   ├── go_executables/    (Go executables)
 │   └── libs/             (Gradle JAR library)
 └── build.bat             (Batch script to build the entire project)
-````
+```
 LogManagingApi (Go)
 
 Description
@@ -76,7 +76,7 @@ Kotlin
 
 import kotlinx.coroutines.runBlocking
 import org.aria.danesh.logmanagingkotlinlib.LogManagingKotlinLib
-````
+```kotlin
 fun main() = runBlocking {
 val logManagingKotlinLib = LogManagingKotlinLib(
 "http://<api_host>:<api_port>",
@@ -97,7 +97,7 @@ val logManagingKotlinLib = LogManagingKotlinLib(
         }
     )
 }
-````
+```
 Build Script (build.bat)
 
 The build.bat script automates the build process for both the Go API and the Kotlin library.

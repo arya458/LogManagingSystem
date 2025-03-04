@@ -24,3 +24,29 @@ tasks.test {
 kotlin {
     jvmToolchain(17)
 }
+tasks.build {
+    exec {
+        commandLine ("${rootDir}\\build.bat", "windows", "amd64", "LogManagingApi-windows-64.exe")
+    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "windows", "386", "LogManagingApi-windows-32.exe")
+//    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "linux", "amd64", "LogManagingApi_linux_amd64")
+//    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "linux", "386", "LogManagingApi_linux_386")
+//    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "linux", "arm64", "LogManagingApi_linux_arm64")
+//    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "linux", "arm", "LogManagingApi_linux_arm")
+//    }
+//    exec {
+//        commandLine ("${rootDir}\\build.bat", "darwin", "amd64", "LogManagingApi_darwin_amd64")
+//    }
+//    exec {
+//        commandLine("${rootDir}\\build.bat", "darwin", "arm64", "LogManagingApi_darwin_arm64")
+//    }
+}

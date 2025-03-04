@@ -23,9 +23,3 @@ kotlin {
     jvmToolchain(17) // Or your desired JVM version
 }
 
-tasks.jar {
-    manifest {
-        attributes["Main-Class"] = "org.aria.danesh.logmanagingkotlinlib.LogManagingKotlinLibKt" // If you have a main function. if not, remove this line.
-    }
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-}

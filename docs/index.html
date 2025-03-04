@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogManagingSystem - Secure Log Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        header {
+            background: #212121; /* Darker header */
+            color: #bb86fc; /* Accent color */
+            text-align: center;
+            padding: 1rem 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        section {
+            background: #1e1e1e; /* Slightly lighter dark section */
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Darker shadow */
+        }
+        section h2 {
+            color: #bb86fc; /* Accent color for headings */
+        }
+        .code-snippet {
+            background: #272727; /* Darker code background */
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            color: #b3b3b3;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background: #212121;
+            color: #bb86fc;
+        }
+        a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>LogManagingSystem</h1>
+    <p>Secure and Efficient Log Management with Kotlin and Go</p>
+</header>
+<div class="container">
+    <section>
+        <h2>Overview</h2>
+        <p>LogManagingSystem is a robust and secure log management solution designed for applications requiring reliable log collection and storage. It leverages Kotlin for client-side operations and Go for the backend, ensuring both efficiency and security.</p>
+        <p><strong>Key Features:</strong></p>
+        <ul>
+            <li><strong>Encrypted Log Transmission:</strong> Utilizes AES encryption to secure log data during transmission.</li>
+            <li><strong>Secure Authentication:</strong> Implements basic authentication to protect API endpoints.</li>
+            <li><strong>Organized Log Storage:</strong> Stores logs in directories based on device identifiers (IMEL), making retrieval efficient.</li>
+            <li><strong>High-Performance Backend:</strong> Go backend ensures fast and efficient log processing and storage.</li>
+            <li><strong>Cross-Platform Compatibility:</strong> Kotlin client enables easy integration with various platforms.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Kotlin Client Usage</h2>
+        <p>To use the Kotlin client, follow these steps:</p>
+        <ol>
+            <li><strong>Add Dependency:</strong> Include the <code>LogManagingKotlinLib</code> in your Kotlin project.</li>
+            <li><strong>Initialize the Library:</strong> Instantiate <code>LogManagingKotlinLib</code> with your API endpoint, username, password, and encryption key.</li>
+            <li><strong>Send Encrypted Logs:</strong> Use the <code>sendEncryptedLog</code> function to send log messages.</li>
+        </ol>
+        <p><strong>Example:</strong></p>
+        <div class="code-snippet">
+                <pre><code>
+import kotlinx.coroutines.runBlocking
+
+fun main() = runBlocking {
+    val logManagingKotlinLib = LogManagingKotlinLib(
+        "http://&lt;api_host&gt;:&lt;api_port&gt;",
+        "myuser",
+        "mypassword",
+        "your32bytekeyhere!"
+    )
+
+    val result = logManagingKotlinLib.sendEncryptedLog("Your Log Message", "LogTag")
+
+    result.fold(
+        onSuccess = { message ->
+            println("Log sent successfully: $message")
+        },
+        onFailure = { exception ->
+            println("Error sending log: ${exception.message}")
+            exception.printStackTrace()
+        }
+    )
+}
+                </code></pre>
+        </div>
+        <p><strong>Note:</strong> Replace <code>&lt;api_host&gt;</code>, <code>&lt;api_port&gt;</code>, <code>myuser</code>, <code>mypassword</code>, and <code>your32bytekeyhere!</code> with your actual values.</p>
+    </section>
+
+    <section>
+        <h2>Go Backend Setup and Usage</h2>
+        <p>The Go backend provides a secure API for receiving encrypted logs. To set up and use the Go backend:</p>
+        <ol>
+            <li><strong>Clone the Repository:</strong> Clone the <code>LogManagingSystem</code> repository from GitHub.</li>
+            <li><strong>Configure Environment:</strong> Set the <code>username</code>, <code>password</code>, and <code>encryptionKey</code> variables in the <code>main.go</code> file.</li>
+            <li><strong>Run the Server:</strong> Execute <code>go run main.go</code> to start the server.</li>
+            <li><strong>Send Logs:</strong> Use a client (like the provided Kotlin client or <code>curl</code>) to send encrypted logs to the server's endpoint.</li>
+        </ol>
+        <p><strong>Example using curl:</strong></p>
+        <div class="code-snippet">
+                <pre><code>
+curl -X POST -H "Authorization: Basic &lt;encoded_credentials&gt;" -H "Content-Type: application/json" -d '{"encrypted_data":"&lt;encrypted_data&gt;"}' http://localhost:80/
+                </code></pre>
+        </div>
+        <p><strong>Note:</strong> Replace <code>&lt;encoded_credentials&gt;</code> and <code>&lt;encrypted_data&gt;</code> with your actual encoded credentials and encrypted log data.</p>
+    </section>
+
+    <section>
+        <h2>GitHub Repository</h2>
+        <p>Explore the source code and contribute to the project on GitHub: <a href="https://github.com/arya458/LogManagingSystem" target="_blank">arya458/LogManagingSystem</a></p>
+    </section>
+</div>
+<footer>
+    <p>&copy; 2024 LogManagingSystem - Developed by <img src="https://avatars.githubusercontent.com/u/23719966?v=4" width="20" height="20"> <a href="https://github.com/arya458">Aria Danesh</a></p>
+</footer>
+</body>
+</html>

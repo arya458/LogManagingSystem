@@ -1,112 +1,89 @@
-# Log Managing System
+Log Managing System
 
-This project consists of two main components:
+This project provides a comprehensive log management solution, consisting of two main components:
 
-1.  **LogManagingApi (Go):** A Go-based API that receives encrypted log data, decrypts it, and stores it in log files.
-2.  **LogManagingKotlinLib (Kotlin/Gradle):** A Kotlin library that encrypts log data before sending it to the Go API.
+LogManagingApi (Go): A backend API that receives, decrypts, and stores log data.
+LogManagingKotlinLib (Kotlin/Gradle): A client library for encrypting and sending log data to the API.
+Project Structure
 
-## Project Structure
-```kotlin
+````
 LogManagingSystem/
 ├── LogManagingApi/       (Go API project)
 │   ├── logmanagingapi.go
 │   ├── go.mod
 │   ├── go.sum
-│   ├── build.bat 
-│   └── ...
+│   └── build.bat
 ├── LogManagingKotlinLib/ (Kotlin/Gradle library project)
 │   ├── src/
 │   │   └── main/kotlin/
-│   │       └── LogManagingKotlinLib.kt
+│   │       └── org.aria.danesh/
+│   │           └── logmanagingkotlinlib/
+│   │               ├── LogManagingKotlinLib.kt
+│   │               ├── EncryptionUtils.kt
+│   │               ├── NetworkUtils.kt
+│   │               └── DataModels.kt
 │   ├── build.gradle.kts
-│   └── ...
+│   └── lib/              (Directory to hold the LogManagingKotlinLib.jar)
 ├── build/                 (Output directory for build artifacts)
 │   ├── go_executables/    (Go executables)
 │   └── libs/             (Gradle JAR library)
-└── build_all.bat         (Batch script to build the entire project) NOT YET
-└── lib/                  (Directory to hold the LogManagingKotlinLib.jar)
-```
+└── build.bat             (Batch script to build the entire project)
+````
+LogManagingApi (Go)
 
-## LogManagingApi (Go)
+Description
 
-### Description
+The LogManagingApi is a Go-based HTTP server designed to receive, decrypt, and store log data.
 
-The `LogManagingApi` is a Go-based HTTP server that:
+Functionality:
+Receives encrypted log data in JSON format via POST requests.
+Authenticates requests using Basic Authentication.
+Decrypts log data using AES-CFB encryption with a derived key.
+Parses decrypted JSON data to extract log information (IMEL, error message).
+Stores log information in separate log files, organized by IMEL and timestamp.
+Building:
+Navigate to the project root and run build.bat. This builds the API.
+The build.bat will build the Go api executables to the build/go_executables folder.
+Running:
+Run the appropriate executable from the build/go_executables directory.
+Configuration:
+Username, password, and encryption key are set within logmanagingapi.go.
+Port is configured via the PORT environment variable (default: 80).
+LogManagingKotlinLib (Kotlin/Gradle)
 
-* Receives encrypted log data in JSON format via POST requests.
-* Authenticates requests using Basic Authentication.
-* Decrypts the log data using AES-CFB encryption with a derived key from a shared secret.
-* Parses the decrypted JSON data to extract log information (IMEL, error message).
-* Stores the log information in separate log files, organized by IMEL and timestamp.
+Description
 
-### Prerequisites
+The LogManagingKotlinLib is a Kotlin library that provides functionality for encrypting and sending log data to the LogManagingApi.
 
-* Go (version 1.16 or later)
+Packages:
+org.aria.danesh.logmanagingkotlinlib:
+LogManagingKotlinLib.kt: Main class for interacting with the library.
+EncryptionUtils.kt: Handles AES-CFB encryption and key derivation.
+NetworkUtils.kt: Manages HTTP POST requests to the API.
+DataModels.kt: Defines data structures for log data and API responses.
+Use Cases:
+Encryption: The library encrypts log data (IMEL, error message) using AES-CFB with a derived key from a shared secret.
+Data Transmission: Sends the encrypted data to the LogManagingApi via HTTP POST requests.
+Response Handling: Processes HTTP responses, providing success or failure indications.
+Building:
+Navigate to the project root and run build.bat. This builds the library.
+The library jar will be placed in the build/libs folder.
+Integration:
+Copy the JAR from build/libs to the lib directory of your project.
+Add the JAR as a dependency in your Gradle build.
+Usage:
+Kotlin
 
-### Building
-
-1.  Navigate to the project root directory.
-2.  Run `build_all.bat`. This will build executables for multiple OS in the `build/go_executables` directory.
-3.  Alternatively, you can navigate to the `LogManagingApi` directory and run `go build` to build for your current OS.
-
-### Running
-
-1.  Navigate to the `build/go_executables` directory.
-2.  Run the appropriate executable for your operating system (e.g., `myprogram.exe` on Windows, `myprogram_linux_amd64` on Linux).
-
-### Configuration
-
-* **Username and Password:** Set in the `logmanagingapi.go` file.
-* **Encryption Key:** Set in the `logmanagingapi.go` file.
-* **Port:** Configured through the `PORT` environment variable (defaults to 80).
-
-## LogManagingKotlinLib (Kotlin/Gradle)
-
-### Description
-
-The `LogManagingKotlinLib` is a Kotlin library that:
-
-* Encrypts log data (IMEL, error message) using AES-CFB encryption with a derived key.
-* Sends the encrypted data to the `LogManagingApi` via HTTP POST requests.
-* Handles HTTP responses and reports success or failure.
-
-### Prerequisites
-
-* Java Development Kit (JDK)
-* Gradle
-
-### Building
-
-1.  Navigate to the project root directory.
-2.  Run `build_all.bat`. This will build a jar file to the `build/libs` directory.
-3.  Alternatively, you can navigate to the `LogManagingKotlinLib` directory and run `./gradlew jar` to build the JAR file.
-
-### Integration
-
-1.  Copy the generated JAR file from `build/libs` into the `lib` directory of your project.
-2.  Add the following dependency to your `build.gradle.kts` file:
-
-    ```kotlin
-    dependencies {
-        implementation(files("./lib/LogManagingKotlinLib.jar"))
-        // ... other dependencies
-    }
-    ```
-
-3.  Sync your Gradle project.
-
-### Usage
-
-```kotlin
 import kotlinx.coroutines.runBlocking
-
+import org.aria.danesh.logmanagingkotlinlib.LogManagingKotlinLib
+````
 fun main() = runBlocking {
-    val logManagingKotlinLib = LogManagingKotlinLib(
-        "http://<api_host>:<api_port>",
-        "myuser",
-        "mypassword",
-        "your32bytekeyhere!"
-    )
+val logManagingKotlinLib = LogManagingKotlinLib(
+"http://<api_host>:<api_port>",
+"myuser",
+"mypassword",
+"your32bytekeyhere!"
+)
 
     val result = logManagingKotlinLib.sendEncryptedLog("asdasdasd", "TestLib")
 
@@ -120,10 +97,19 @@ fun main() = runBlocking {
         }
     )
 }
-```
-Build Script (build_all.bat)
-The build.bat script automates the build process for both the Go API.
+````
+Build Script (build.bat)
 
-Usage
-Place the build_all.bat file in the project's root directory.
-Double-click the build_all.bat file.
+The build.bat script automates the build process for both the Go API and the Kotlin library.
+
+Usage: Place build.bat in the project root and run it.
+The build script will build both the go api, and the Kotlin library.
+How This Lib Works
+
+Initialization: The LogManagingKotlinLib is initialized with the API endpoint, authentication credentials, and the shared encryption key.
+Encryption: When sendEncryptedLog is called, the provided IMEL and error message are serialized into a JSON string. This string is then encrypted using AES-CFB with a key derived from the shared secret.
+Transmission: The encrypted data is sent to the LogManagingApi via an HTTP POST request, along with Basic Authentication headers.
+Decryption and Storage: The API decrypts the data, parses it, and stores the log information.
+Response: The library returns a Result type, indicating success or failure.
+
+Aria Danesh :)

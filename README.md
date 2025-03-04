@@ -126,14 +126,3 @@ The build.bat script automates the build process for both the Go API.
 Usage
 Place the build_all.bat file in the project's root directory.
 Double-click the build_all.bat file.
-Dependencies
-Go:
-golang.org/x/crypto/pbkdf2
-Kotlin:
-org.jetbrains.kotlinx:kotlinx-coroutines-core
-org.json:json
-Security
-Use a strong encryption key.
-Protect the API credentials.
-Consider using HTTPS for secure communication.
-Validate and sanitize input data.

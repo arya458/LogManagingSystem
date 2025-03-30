@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "org.aria.danesh"
-version = "1.0-SNAPSHOT"
+version = "1.0-TestJar"
 
 repositories {
     mavenCentral()

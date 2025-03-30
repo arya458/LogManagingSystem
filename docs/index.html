@@ -4,149 +4,346 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogManagingSystem - Secure Log Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary-color: #bb86fc;
+            --secondary-color: #03dac6;
+            --background-dark: #121212;
+            --surface-dark: #1e1e1e;
+            --header-dark: #212121;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b3b3b3;
+            --error-color: #cf6679;
+            --success-color: #03dac6;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #121212; /* Dark background */
-            color: #e0e0e0; /* Light text */
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
             line-height: 1.6;
         }
+
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
+
         header {
-            background: #212121; /* Darker header */
-            color: #bb86fc; /* Accent color */
+            background: var(--header-dark);
+            padding: 3rem 0;
             text-align: center;
-            padding: 1rem 0;
+            position: relative;
+            overflow: hidden;
         }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
         header h1 {
-            margin: 0;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-weight: 700;
         }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         section {
-            background: #1e1e1e; /* Slightly lighter dark section */
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Darker shadow */
+            background: var(--surface-dark);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
         }
+
+        section:hover {
+            transform: translateY(-2px);
+        }
+
         section h2 {
-            color: #bb86fc; /* Accent color for headings */
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
         }
+
         .code-snippet {
-            background: #272727; /* Darker code background */
-            padding: 10px;
-            border-radius: 5px;
+            background: #272727;
+            padding: 1.5rem;
+            border-radius: 8px;
             overflow-x: auto;
             font-family: 'Courier New', Courier, monospace;
-            color: #b3b3b3;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            border: 1px solid rgba(187, 134, 252, 0.1);
         }
+
+        .code-snippet pre {
+            margin: 0;
+        }
+
+        .code-snippet code {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
         footer {
             text-align: center;
-            padding: 1rem 0;
-            background: #212121;
-            color: #bb86fc;
+            padding: 2rem 0;
+            background: var(--header-dark);
+            color: var(--text-secondary);
+            margin-top: 4rem;
         }
+
         a {
-            color: #bb86fc;
+            color: var(--primary-color);
             text-decoration: none;
+            transition: color 0.2s ease;
         }
+
         a:hover {
-            text-decoration: underline;
+            color: var(--secondary-color);
         }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: rgba(187, 134, 252, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(187, 134, 252, 0.1);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .note {
+            background: rgba(3, 218, 198, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning {
+            background: rgba(207, 102, 121, 0.1);
+            border-left: 4px solid var(--error-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .github-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .github-profile img {
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+        }
+
+        .github-profile img:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 <header>
     <h1>LogManagingSystem</h1>
-    <p>Secure and Efficient Log Management with Kotlin and Go</p>
+    <p>A secure, efficient, and scalable log management solution built with Kotlin and Go</p>
 </header>
+
 <div class="container">
     <section>
         <h2>Overview</h2>
-        <p>LogManagingSystem is a robust and secure log management solution designed for applications requiring reliable log collection and storage. It leverages Kotlin for client-side operations and Go for the backend, ensuring both efficiency and security.</p>
-        <p><strong>Key Features:</strong></p>
-        <ul>
-            <li><strong>Encrypted Log Transmission:</strong> Utilizes AES encryption to secure log data during transmission.</li>
-            <li><strong>Secure Authentication:</strong> Implements basic authentication to protect API endpoints.</li>
-            <li><strong>Organized Log Storage:</strong> Stores logs in directories based on device identifiers (IMEL), making retrieval efficient.</li>
-            <li><strong>High-Performance Backend:</strong> Go backend ensures fast and efficient log processing and storage.</li>
-            <li><strong>Cross-Platform Compatibility:</strong> Kotlin client enables easy integration with various platforms.</li>
-        </ul>
+        <p>LogManagingSystem is a modern, secure log management solution designed for applications requiring reliable log collection and storage. Built with Kotlin for client-side operations and Go for the backend, it provides a robust and efficient way to handle application logs.</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🔒 Secure Transmission</h3>
+                <p>Utilizes AES encryption with CFB mode and key derivation for secure log data transmission.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔑 Authentication</h3>
+                <p>Implements basic authentication to protect API endpoints and ensure authorized access.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📁 Organized Storage</h3>
+                <p>Stores logs in directories based on device identifiers (IMEL) for efficient retrieval.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ High Performance</h3>
+                <p>Go backend ensures fast and efficient log processing and storage.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌐 Cross-Platform</h3>
+                <p>Kotlin client enables easy integration with various platforms and applications.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔄 Retry Mechanism</h3>
+                <p>Built-in retry logic for handling network issues and ensuring log delivery.</p>
+            </div>
+        </div>
     </section>
 
     <section>
         <h2>Kotlin Client Usage</h2>
-        <p>To use the Kotlin client, follow these steps:</p>
-        <ol>
-            <li><strong>Add Dependency:</strong> Include the <code>LogManagingKotlinLib</code> in your Kotlin project.</li>
-            <li><strong>Initialize the Library:</strong> Instantiate <code>LogManagingKotlinLib</code> with your API endpoint, username, password, and encryption key.</li>
-            <li><strong>Send Encrypted Logs:</strong> Use the <code>sendEncryptedLog</code> function to send log messages.</li>
-        </ol>
-        <p><strong>Example:</strong></p>
+        <p>The Kotlin client library provides a simple and secure way to send logs to the server. Here's how to use it:</p>
+        
         <div class="code-snippet">
-                <pre><code>
-import kotlinx.coroutines.runBlocking
+            <pre><code>import kotlinx.coroutines.runBlocking
+import org.aria.danesh.logmanagingkotlinlib.LogManagingKotlinLib
 
 fun main() = runBlocking {
-    val logManagingKotlinLib = LogManagingKotlinLib(
-        "http://&lt;api_host&gt;:&lt;api_port&gt;",
-        "myuser",
-        "mypassword",
-        "your32bytekeyhere!"
+    val logManager = LogManagingKotlinLib(
+        apiUrl = "http://your-api-host:port",
+        username = "your-username",
+        password = "your-password",
+        encryptionKey = "your-32-byte-encryption-key",
+        maxRetries = 3,
+        retryDelay = 1,
+        timeout = 30
     )
 
-    val result = logManagingKotlinLib.sendEncryptedLog("Your Log Message", "LogTag")
+    val result = logManager.sendEncryptedLog(
+        imel = "device-identifier",
+        error = "Error message",
+        level = "ERROR",
+        source = "application-name"
+    )
 
     result.fold(
-        onSuccess = { message ->
-            println("Log sent successfully: $message")
-        },
-        onFailure = { exception ->
-            println("Error sending log: ${exception.message}")
-            exception.printStackTrace()
-        }
+        onSuccess = { message -> println("Log sent successfully: $message") },
+        onFailure = { exception -> println("Error sending log: ${exception.message}") }
     )
-}
-                </code></pre>
+}</code></pre>
         </div>
-        <p><strong>Note:</strong> Replace <code>&lt;api_host&gt;</code>, <code>&lt;api_port&gt;</code>, <code>myuser</code>, <code>mypassword</code>, and <code>your32bytekeyhere!</code> with your actual values.</p>
-    </section>
 
-    <section>
-        <h2>Go Backend Setup and Usage</h2>
-        <p>The Go backend provides a secure API for receiving encrypted logs. To set up and use the Go backend:</p>
-        <ol>
-            <li><strong>Clone the Repository:</strong> Clone the <code>LogManagingSystem</code> repository from GitHub.</li>
-            <li><strong>Configure Environment:</strong> Set the <code>username</code>, <code>password</code>, and <code>encryptionKey</code> variables in the <code>main.go</code> file.</li>
-            <li><strong>Run the Server:</strong> Execute <code>go run main.go</code> to start the server.</li>
-            <li><strong>Send Logs:</strong> Use a client (like the provided Kotlin client or <code>curl</code>) to send encrypted logs to the server's endpoint.</li>
-        </ol>
-        <p><strong>Example using curl:</strong></p>
+        <div class="note">
+            <strong>Note:</strong> The Kotlin client includes built-in retry logic and timeout handling for improved reliability.
+        </div>
+
+        <h3>Dependencies</h3>
+        <p>Add the following dependencies to your Kotlin project:</p>
         <div class="code-snippet">
-                <pre><code>
-curl -X POST -H "Authorization: Basic &lt;encoded_credentials&gt;" -H "Content-Type: application/json" -d '{"encrypted_data":"&lt;encrypted_data&gt;"}' http://localhost:80/
-                </code></pre>
+            <pre><code>dependencies {
+    implementation("org.aria.danesh:logmanagingkotlinlib:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+}</code></pre>
         </div>
-        <p><strong>Note:</strong> Replace <code>&lt;encoded_credentials&gt;</code> and <code>&lt;encrypted_data&gt;</code> with your actual encoded credentials and encrypted log data.</p>
     </section>
 
     <section>
-        <h2>GitHub Repository</h2>
-        <p>Explore the source code and contribute to the project on GitHub: <a href="https://github.com/arya458/LogManagingSystem" target="_blank">arya458/LogManagingSystem</a></p>
+        <h2>Go Backend Setup</h2>
+        <p>The Go backend provides a secure API for receiving and storing encrypted logs. Here's how to set it up:</p>
+        
+        <ol>
+            <li><strong>Clone the Repository:</strong> Get the latest version from GitHub.</li>
+            <li><strong>Configure Environment:</strong> Set up your environment variables for authentication and encryption.</li>
+            <li><strong>Build and Run:</strong> Use the provided build script or run directly with Go.</li>
+        </ol>
+
+        <div class="code-snippet">
+            <pre><code># Build the API
+./build.bat
+
+# The executable will be created in build/api/LogManagingApi-windows-64.exe</code></pre>
+        </div>
+
+        <div class="warning">
+            <strong>Security Note:</strong> Always use strong encryption keys and secure credentials. Never commit sensitive information to version control.
+        </div>
+    </section>
+
+    <section>
+        <h2>API Endpoints</h2>
+        <p>The API provides the following endpoints:</p>
+        <ul>
+            <li><strong>POST /</strong> - Send encrypted logs to the server</li>
+            <li><strong>GET /health</strong> - Check server health status</li>
+        </ul>
+
+        <div class="code-snippet">
+            <pre><code># Example using curl
+curl -X POST \
+  -H "Authorization: Basic $(echo -n 'username:password' | base64)" \
+  -H "Content-Type: application/json" \
+  -d '{"encrypted_data":"your-encrypted-data"}' \
+  http://localhost:8080/</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Contributing</h2>
+        <p>We welcome contributions! Please feel free to submit pull requests or report issues on our GitHub repository.</p>
+        <p>Visit our repository: <a href="https://github.com/arya458/LogManagingSystem" target="_blank">arya458/LogManagingSystem</a></p>
     </section>
 </div>
+
 <footer>
-    <p>&copy; 2024 LogManagingSystem - Developed by <img src="https://avatars.githubusercontent.com/u/23719966?v=4" width="20" height="20"> <a href="https://github.com/arya458">Aria Danesh</a></p>
+    <p>&copy; 2024 LogManagingSystem</p>
+    <div class="github-profile">
+        <img src="https://avatars.githubusercontent.com/u/23719966?v=4" width="32" height="32" alt="Aria Danesh">
+        <p>Developed by <a href="https://github.com/arya458">Aria Danesh</a></p>
+    </div>
 </footer>
 </body>
 </html>

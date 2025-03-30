@@ -1,52 +1,83 @@
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm") version "1.9.21"
+    kotlin("plugin.serialization") version "1.9.21"
+    `maven-publish`
 }
 
+group = "org.aria.danesh"
+version = "1.0.0"
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_17 // Or a higher version if needed
-    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // Or jdk7 if needed
-    implementation("org.json:json:20231013") // Add JSON dependency
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") // Coroutines core
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.3") // Coroutines jdk8
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.21")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // HTTP Client
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Logging
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
+
+    // Testing
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.21")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.21")
+    testImplementation("io.mockk:mockk:1.13.8")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
-}
-tasks.build {
-    exec {
-        commandLine ("${rootDir}\\build.bat", "windows", "amd64", "LogManagingApi-windows-64.exe")
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "17"
+            freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
+        }
     }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "windows", "386", "LogManagingApi-windows-32.exe")
-//    }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "linux", "amd64", "LogManagingApi_linux_amd64")
-//    }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "linux", "386", "LogManagingApi_linux_386")
-//    }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "linux", "arm64", "LogManagingApi_linux_arm64")
-//    }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "linux", "arm", "LogManagingApi_linux_arm")
-//    }
-//    exec {
-//        commandLine ("${rootDir}\\build.bat", "darwin", "amd64", "LogManagingApi_darwin_amd64")
-//    }
-//    exec {
-//        commandLine("${rootDir}\\build.bat", "darwin", "arm64", "LogManagingApi_darwin_arm64")
-//    }
+
+    compileJava {
+        targetCompatibility = "17"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    jar {
+        manifest {
+            attributes(
+                mapOf(
+                    "Implementation-Title" to project.name,
+                    "Implementation-Version" to project.version
+                )
+            )
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/yourusername/LogManagingSystem")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }

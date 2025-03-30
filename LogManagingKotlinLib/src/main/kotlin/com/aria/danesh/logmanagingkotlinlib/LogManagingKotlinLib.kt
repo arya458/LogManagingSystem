@@ -12,7 +12,19 @@ import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import org.json.JSONObject
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+@Serializable
+data class LogData(
+    val imel: String,
+    val error: String
+)
+
+@Serializable
+data class EncryptedRequest(
+    val encrypted_data: String
+)
 
 // LogManagingKotlinLib class for handling encrypted log sending.
 class LogManagingKotlinLib(
@@ -21,23 +33,24 @@ class LogManagingKotlinLib(
     private val password: String, // Password for basic authentication.
     private val encryptionKey: String // Encryption key.
 ) {
+    private val json = Json { 
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+    }
 
     // Sends an encrypted log message to the API.
     suspend fun sendEncryptedLog(imel: String, errorMessage: String): Result<String> = withContext(Dispatchers.IO) {
         try {
-            // Create a JSON object with IMEL and error message.
-            val jsonData = JSONObject().apply {
-                put("imel", imel)
-                put("error", errorMessage)
-            }
+            // Create a data object with IMEL and error message.
+            val logData = LogData(imel, errorMessage)
+            val jsonData = json.encodeToString(logData)
 
             // Encrypt the JSON data.
-            val encryptedData = encrypt(jsonData.toString(), encryptionKey)
+            val encryptedData = encrypt(jsonData, encryptionKey)
 
-            // Create a JSON object with the encrypted data.
-            val postData = JSONObject().apply {
-                put("encrypted_data", encryptedData)
-            }.toString()
+            // Create the encrypted request object.
+            val encryptedRequest = EncryptedRequest(encryptedData)
+            val postData = json.encodeToString(encryptedRequest)
 
             // Encode credentials for basic authentication.
             val credentials = "$username:$password"
@@ -62,18 +75,17 @@ class LogManagingKotlinLib(
                 // Read the response from the input stream.
                 BufferedReader(InputStreamReader(connection.inputStream)).use { reader ->
                     val response = reader.readText()
-                    return@withContext Result.success(response) // Return success with the response.
+                    Result.success(response) // Return success with the response.
                 }
             } else {
                 // Handle error response.
                 BufferedReader(InputStreamReader(connection.errorStream)).use { reader ->
                     val errorResponse = reader.readText()
-                    return@withContext Result.failure(IOException("HTTP error: $responseCode, $errorResponse")) // Return failure with error details.
+                    Result.failure(IOException("HTTP error: $responseCode, $errorResponse")) // Return failure with error details.
                 }
             }
-            return@withContext Result.failure(IOException("Unexpected end of request")) // Return failure if no response is received.
         } catch (e: Exception) {
-            return@withContext Result.failure(e) // Return failure for any exception.
+            Result.failure(e) // Return failure for any exception.
         }
     }
 

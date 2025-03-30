@@ -4,8 +4,67 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="hRsJBUoU1jA6KEGFSo-OCJGlrczQlXEiOtdEFci4lj4" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogManagingSystem - Secure Log Management</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>LogManagingSystem - Secure Log Management Solution | Kotlin & Go</title>
+    <meta name="title" content="LogManagingSystem - Secure Log Management Solution | Kotlin & Go">
+    <meta name="description" content="A secure, efficient, and scalable log management solution built with Kotlin and Go. Features AES encryption, authentication, and high-performance storage.">
+    <meta name="keywords" content="log management, kotlin, golang, encryption, logging, security, application logs">
+    <meta name="author" content="Aria Danesh">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arya458.github.io/LogManagingSystem/">
+    <meta property="og:title" content="LogManagingSystem - Secure Log Management Solution">
+    <meta property="og:description" content="A secure, efficient, and scalable log management solution built with Kotlin and Go. Features AES encryption, authentication, and high-performance storage.">
+    <meta property="og:image" content="https://arya458.github.io/LogManagingSystem/docs/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://arya458.github.io/LogManagingSystem/">
+    <meta property="twitter:title" content="LogManagingSystem - Secure Log Management Solution">
+    <meta property="twitter:description" content="A secure, efficient, and scalable log management solution built with Kotlin and Go. Features AES encryption, authentication, and high-performance storage.">
+    <meta property="twitter:image" content="https://arya458.github.io/LogManagingSystem/docs/assets/og-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arya458.github.io/LogManagingSystem/">
+    
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="hRsJBUoU1jA6KEGFSo-OCJGlrczQlXEiOtdEFci4lj4" />
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "LogManagingSystem",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Cross-platform",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "description": "A secure, efficient, and scalable log management solution built with Kotlin and Go",
+        "author": {
+            "@type": "Person",
+            "name": "Aria Danesh"
+        },
+        "programmingLanguage": ["Kotlin", "Go"],
+        "featureList": [
+            "AES encryption with CFB mode",
+            "Basic authentication",
+            "Organized storage by device identifier",
+            "High-performance Go backend",
+            "Cross-platform Kotlin client",
+            "Built-in retry mechanism"
+        ]
+    }
+    </script>
+    
     <style>
         :root {
             --primary-color: #bb86fc;
@@ -206,48 +265,59 @@
 </head>
 <body>
 <header>
+    <nav aria-label="Main navigation">
+        <div class="container">
+            <a href="#overview" aria-label="Overview">Overview</a>
+            <a href="#features" aria-label="Features">Features</a>
+            <a href="#usage" aria-label="Usage">Usage</a>
+            <a href="#documentation" aria-label="Documentation">Documentation</a>
+        </div>
+    </nav>
     <h1>LogManagingSystem</h1>
     <p>A secure, efficient, and scalable log management solution built with Kotlin and Go</p>
 </header>
 
-<div class="container">
-    <section>
-        <h2>Overview</h2>
+<main class="container">
+    <section id="overview" aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Overview</h2>
         <p>LogManagingSystem is a modern, secure log management solution designed for applications requiring reliable log collection and storage. Built with Kotlin for client-side operations and Go for the backend, it provides a robust and efficient way to handle application logs.</p>
-        
+    </section>
+
+    <section id="features" aria-labelledby="features-heading">
+        <h2 id="features-heading">Key Features</h2>
         <div class="feature-grid">
-            <div class="feature-card">
+            <article class="feature-card">
                 <h3>🔒 Secure Transmission</h3>
                 <p>Utilizes AES encryption with CFB mode and key derivation for secure log data transmission.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <h3>🔑 Authentication</h3>
                 <p>Implements basic authentication to protect API endpoints and ensure authorized access.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <h3>📁 Organized Storage</h3>
                 <p>Stores logs in directories based on device identifiers (IMEL) for efficient retrieval.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <h3>⚡ High Performance</h3>
                 <p>Go backend ensures fast and efficient log processing and storage.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <h3>🌐 Cross-Platform</h3>
                 <p>Kotlin client enables easy integration with various platforms and applications.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <h3>🔄 Retry Mechanism</h3>
                 <p>Built-in retry logic for handling network issues and ensuring log delivery.</p>
-            </div>
+            </article>
         </div>
     </section>
 
-    <section>
-        <h2>Kotlin Client Usage</h2>
+    <section id="usage" aria-labelledby="usage-heading">
+        <h2 id="usage-heading">Kotlin Client Usage</h2>
         <p>The Kotlin client library provides a simple and secure way to send logs to the server. Here's how to use it:</p>
         
-        <div class="code-snippet">
+        <div class="code-snippet" role="region" aria-label="Code example">
             <pre><code>import kotlinx.coroutines.runBlocking
 import org.aria.danesh.logmanagingkotlinlib.LogManagingKotlinLib
 
@@ -337,7 +407,7 @@ curl -X POST \
         <p>We welcome contributions! Please feel free to submit pull requests or report issues on our GitHub repository.</p>
         <p>Visit our repository: <a href="https://github.com/arya458/LogManagingSystem" target="_blank">arya458/LogManagingSystem</a></p>
     </section>
-</div>
+</main>
 
 <footer>
     <p>&copy; 2024 LogManagingSystem</p>

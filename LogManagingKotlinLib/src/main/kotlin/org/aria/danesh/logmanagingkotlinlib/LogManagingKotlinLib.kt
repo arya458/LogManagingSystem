@@ -3,13 +3,39 @@ package org.aria.danesh.logmanagingkotlinlib
 import kotlinx.coroutines.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
+
+/**
+ * Data class representing the log data structure
+ */
+@Serializable
+data class LogData(
+    val imel: String,
+    val error: String,
+    val level: String,
+    val source: String?,
+    val timestamp: String = System.currentTimeMillis().toString()
+)
+
+/**
+ * Data class representing a log entry
+ */
+@Serializable
+data class LogEntry(
+    val encrypted_data: String
+)
+
+/**
+ * Custom exception for LogManagingKotlinLib errors
+ */
+class LogManagingException(message: String, cause: Throwable? = null) : Exception(message, cause)
 
 /**
  * Main class for the Log Managing Kotlin Library.
@@ -62,8 +88,7 @@ class LogManagingKotlinLib(
                 imel = imel,
                 error = error,
                 level = level,
-                source = source,
-                time = System.currentTimeMillis().toString()
+                source = source
             )
 
             val encryptedData = EncryptionUtils.encrypt(
@@ -118,31 +143,6 @@ class LogManagingKotlinLib(
         return "Basic $encodedCredentials"
     }
 }
-
-/**
- * Custom exception for LogManagingKotlinLib errors
- */
-class LogManagingException(message: String, cause: Throwable? = null) : Exception(message, cause)
-
-/**
- * Data class representing a log entry
- */
-@Serializable
-data class LogEntry(
-    val encrypted_data: String
-)
-
-/**
- * Data class representing the log data structure
- */
-@Serializable
-data class LogData(
-    val imel: String,
-    val error: String,
-    val level: String,
-    val source: String?,
-    val time: String
-)
 
 /**
  * Extension function to convert objects to JSON

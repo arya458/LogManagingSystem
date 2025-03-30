@@ -73,10 +73,10 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/yourusername/LogManagingSystem")
+            url = uri("https://maven.pkg.github.com/arya458/LogManagingSystem")
             credentials {
-                username = System.getenv("GITHUB_USERNAME")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") as? String ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") as? String ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
